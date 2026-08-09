@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Estoque - Controle de Estoque</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <i class="bi bi-lightning-charge-fill text-warning fs-4"></i>
+                <span>Estoque Elétrico</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="materiais.html"><i class="bi bi-box-seam me-1"></i> Materiais</a></li>
+                    <li class="nav-item"><a class="nav-link" href="entrada.html"><i class="bi bi-arrow-down-circle me-1"></i> Entrada</a></li>
+                    <li class="nav-item"><a class="nav-link" href="saida.html"><i class="bi bi-arrow-up-circle me-1"></i> Saída</a></li>
+                    <li class="nav-item"><a class="nav-link" href="estoque.html"><i class="bi bi-clipboard-data me-1"></i> Consulta Estoque</a></li>
+                    <li class="nav-item"><a class="nav-link" href="historico.html"><i class="bi bi-clock-history me-1"></i> Histórico</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h4 mb-0 fw-bold"><i class="bi bi-clipboard-data-fill text-info me-2"></i>Consulta de Estoque Atual</h2>
+                <p class="text-muted small mb-0">Verifique a situação geral, quantidades disponíveis e estoque mínimo dos materiais</p>
+            </div>
+        </div>
+
+        <div class="card p-3 mb-4 bg-white border-0 shadow-sm">
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md-5">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" id="buscaEstoque" data-busca-tabela="tabelaEstoqueAtual" placeholder="Filtrar por nome, código, categoria ou localização...">
+                    </div>
+                </div>
+                <div class="col-12 col-md-7 text-md-end">
+                    <span class="badge badge-estoque-normal me-1 py-2 px-2"><i class="bi bi-check-circle me-1"></i> Normal</span>
+                    <span class="badge badge-estoque-baixo me-1 py-2 px-2"><i class="bi bi-exclamation-triangle me-1"></i> Estoque Baixo</span>
+                    <span class="badge badge-sem-estoque py-2 px-2"><i class="bi bi-x-circle me-1"></i> Sem Estoque</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card tabela-custom mb-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="tabelaEstoqueAtual">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Material</th>
+                            <th>Categoria</th>
+                            <th>Qtd Disponível</th>
+                            <th>Unidade</th>
+                            <th>Estoque Mínimo</th>
+                            <th>Situação</th>
+                            <th>Localização</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">MAT-001</td>
+                            <td class="fw-semibold">Cabo flexível 2,5 mm² (Vermelho)</td>
+                            <td>Condutores</td>
+                            <td class="fw-bold text-success">350</td>
+                            <td>Metros</td>
+                            <td>100</td>
+                            <td><span class="badge badge-estoque-normal"><i class="bi bi-check-lg me-1"></i> Normal</span></td>
+                            <td>Prateleira A1</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-002</td>
+                            <td class="fw-semibold">Disjuntor bipolar 20A DIN</td>
+                            <td>Proteção</td>
+                            <td class="fw-bold text-success">45</td>
+                            <td>Unidades</td>
+                            <td>15</td>
+                            <td><span class="badge badge-estoque-normal"><i class="bi bi-check-lg me-1"></i> Normal</span></td>
+                            <td>Prateleira B2</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-003</td>
+                            <td class="fw-semibold">Tomada 10A 2P+T Embutir</td>
+                            <td>Tomadas e Interruptores</td>
+                            <td class="fw-bold text-warning">8</td>
+                            <td>Unidades</td>
+                            <td>20</td>
+                            <td><span class="badge badge-estoque-baixo"><i class="bi bi-exclamation-triangle me-1"></i> Estoque Baixo</span></td>
+                            <td>Prateleira C1</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-004</td>
+                            <td class="fw-semibold">Interruptor simples 1 tecla</td>
+                            <td>Tomadas e Interruptores</td>
+                            <td class="fw-bold text-success">60</td>
+                            <td>Unidades</td>
+                            <td>15</td>
+                            <td><span class="badge badge-estoque-normal"><i class="bi bi-check-lg me-1"></i> Normal</span></td>
+                            <td>Prateleira C1</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-005</td>
+                            <td class="fw-semibold">Eletroduto PVC 3/4" (3m)</td>
+                            <td>Tubulações</td>
+                            <td class="fw-bold text-success">80</td>
+                            <td>Barras</td>
+                            <td>30</td>
+                            <td><span class="badge badge-estoque-normal"><i class="bi bi-check-lg me-1"></i> Normal</span></td>
+                            <td>Galpão G2</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-006</td>
+                            <td class="fw-semibold">Conector elétrico wago 3 vias</td>
+                            <td>Conexões</td>
+                            <td class="fw-bold text-success">12</td>
+                            <td>Caixas</td>
+                            <td>5</td>
+                            <td><span class="badge badge-estoque-normal"><i class="bi bi-check-lg me-1"></i> Normal</span></td>
+                            <td>Prateleira A3</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-007</td>
+                            <td class="fw-semibold">Fita isolante 20m 3M</td>
+                            <td>Acessórios</td>
+                            <td class="fw-bold text-warning">4</td>
+                            <td>Unidades</td>
+                            <td>10</td>
+                            <td><span class="badge badge-estoque-baixo"><i class="bi bi-exclamation-triangle me-1"></i> Estoque Baixo</span></td>
+                            <td>Prateleira B1</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">MAT-008</td>
+                            <td class="fw-semibold">Fio Rígido 4,0 mm² (Azul)</td>
+                            <td>Condutores</td>
+                            <td class="fw-bold text-danger">0</td>
+                            <td>Metros</td>
+                            <td>50</td>
+                            <td><span class="badge badge-sem-estoque"><i class="bi bi-x-lg me-1"></i> Sem Estoque</span></td>
+                            <td>Prateleira A2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">Trabalho Final — Pós-Graduação UTFPR</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/main.js"></script>
+</body>
+
+</html>
