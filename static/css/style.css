@@ -1,0 +1,125 @@
+/* Estilos do projeto */
+
+/* Cores principais */
+:root {
+  --cor-primaria: #0f2b48;
+  --cor-primaria-hover: #163d66;
+  --cor-eletrica: #0d6efd;
+  --cor-fundo: #f4f6f9;
+  --cor-texto: #2b303a;
+  --cor-borda: #e2e8f0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navegação */
+.navbar-custom {
+  background-color: var(--cor-primaria);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-custom .navbar-brand {
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.navbar-custom .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Cards do dashboard */
+.card-kpi {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-kpi:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.icone-kpi {
+  font-size: 2.2rem;
+  opacity: 0.85;
+}
+
+/* Tabelas */
+.tabela-custom {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.tabela-custom thead {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+}
+
+.tabela-custom tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.tabela-custom tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Badges de status */
+.badge-estoque-normal {
+  background-color: #198754;
+  color: #ffffff;
+}
+
+.badge-estoque-baixo {
+  background-color: #ffc107;
+  color: #000000;
+}
+
+.badge-sem-estoque {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.badge-tipo-entrada {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+.badge-tipo-saida {
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+/* Rodapé */
+footer {
+  margin-top: auto;
+  background-color: #ffffff;
+  border-top: 1px solid var(--cor-borda);
+  padding: 1.2rem 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
