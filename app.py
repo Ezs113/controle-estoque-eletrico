@@ -4,6 +4,7 @@ from flask import Flask, render_template
 from config import Config
 from database import close_db, init_db
 from routes import api
+from seed import seed_db
 
 
 def create_app():
@@ -17,6 +18,19 @@ def create_app():
     def init_db_command():
         init_db()
         click.echo("Banco de dados inicializado.")
+
+    @app.cli.command("seed-db")
+    def seed_db_command():
+        try:
+            resultado = seed_db()
+        except ValueError as erro:
+            raise click.ClickException(str(erro)) from erro
+
+        click.echo(
+            f"{resultado['materiais']} materiais e "
+            f"{resultado['movimentacoes']} movimentações "
+            "cadastrados."
+        )
 
     @app.get("/")
     @app.get("/index.html")

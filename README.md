@@ -83,5 +83,6 @@ pip install -r requirements.txt
 Com o ambiente virtual ativado:
 
 ```bash
-flask --app app run --debug
-```
+python -m flask --app app init-db
+python -m flask --app app seed-db
+python -m flask --app app run --debug --host=0.0.0.0 --port=5000
