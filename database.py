@@ -30,8 +30,10 @@ def init_db():
             nome TEXT NOT NULL,
             categoria TEXT NOT NULL,
             unidade_medida TEXT NOT NULL,
-            quantidade REAL NOT NULL DEFAULT 0 CHECK (quantidade >= 0),
-            estoque_minimo REAL NOT NULL DEFAULT 0 CHECK (estoque_minimo >= 0),
+            quantidade REAL NOT NULL DEFAULT 0
+                CHECK (quantidade >= 0),
+            estoque_minimo REAL NOT NULL DEFAULT 0
+                CHECK (estoque_minimo >= 0),
             localizacao TEXT,
             criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -40,12 +42,17 @@ def init_db():
         CREATE TABLE IF NOT EXISTS movimentacoes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             material_id INTEGER NOT NULL,
-            tipo TEXT NOT NULL CHECK (tipo IN ('entrada', 'saida')),
-            quantidade REAL NOT NULL CHECK (quantidade > 0),
+            tipo TEXT NOT NULL
+                CHECK (tipo IN ('entrada', 'saida')),
+            quantidade REAL NOT NULL
+                CHECK (quantidade > 0),
+            data_movimentacao TEXT NOT NULL,
             responsavel TEXT NOT NULL,
+            destino TEXT,
             observacao TEXT,
             criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (material_id) REFERENCES materiais (id)
+            FOREIGN KEY (material_id)
+                REFERENCES materiais (id)
                 ON UPDATE CASCADE
                 ON DELETE RESTRICT
         );
@@ -57,7 +64,7 @@ def init_db():
             ON movimentacoes (material_id);
 
         CREATE INDEX IF NOT EXISTS idx_movimentacoes_data
-            ON movimentacoes (criado_em);
+            ON movimentacoes (data_movimentacao);
         """
     )
 
