@@ -12,6 +12,7 @@ from models import (
     excluir_material,
     listar_materiais,
     listar_movimentacoes,
+    obter_dashboard,
     registrar_movimentacao,
 )
 
@@ -21,6 +22,17 @@ api = Blueprint("api", __name__, url_prefix="/api")
 
 def registro_para_dict(registro):
     return dict(registro)
+
+
+def validar_data(valor):
+    if not valor:
+        return True
+
+    try:
+        date.fromisoformat(str(valor))
+        return True
+    except ValueError:
+        return False
 
 
 def validar_material(dados):
@@ -94,9 +106,7 @@ def validar_movimentacao(dados):
     if quantidade <= 0:
         return "A quantidade deve ser maior que zero."
 
-    try:
-        date.fromisoformat(str(dados["data_movimentacao"]))
-    except ValueError:
+    if not validar_data(dados["data_movimentacao"]):
         return "A data deve estar no formato AAAA-MM-DD."
 
     if not str(dados["responsavel"]).strip():
@@ -272,7 +282,42 @@ def api_excluir_material(material_id):
 
 @api.get("/movimentacoes")
 def api_listar_movimentacoes():
-    movimentacoes = listar_movimentacoes()
+    busca = request.args.get("busca", "").strip()
+    tipo = request.args.get("tipo", "").strip().lower()
+    data_inicio = request.args.get("data_inicio", "").strip()
+    data_fim = request.args.get("data_fim", "").strip()
+
+    if tipo and tipo not in ("todos", "entrada", "saida"):
+        return jsonify(
+            {"erro": "O tipo deve ser entrada, saída ou todos."}
+        ), 400
+
+    if not validar_data(data_inicio):
+        return jsonify(
+            {"erro": "A data inicial deve estar em AAAA-MM-DD."}
+        ), 400
+
+    if not validar_data(data_fim):
+        return jsonify(
+            {"erro": "A data final deve estar em AAAA-MM-DD."}
+        ), 400
+
+    if data_inicio and data_fim and data_inicio > data_fim:
+        return jsonify(
+            {
+                "erro": (
+                    "A data inicial não pode ser posterior "
+                    "à data final."
+                )
+            }
+        ), 400
+
+    movimentacoes = listar_movimentacoes(
+        busca=busca or None,
+        tipo=tipo if tipo in ("entrada", "saida") else None,
+        data_inicio=data_inicio or None,
+        data_fim=data_fim or None,
+    )
 
     return jsonify(
         [
@@ -349,3 +394,8 @@ def api_registrar_entrada():
 @api.post("/movimentacoes/saida")
 def api_registrar_saida():
     return criar_movimentacao_por_tipo("saida")
+
+
+@api.get("/dashboard")
+def api_dashboard():
+    return jsonify(obter_dashboard())

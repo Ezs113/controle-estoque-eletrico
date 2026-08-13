@@ -123,7 +123,13 @@ def excluir_material(material_id):
     db.commit()
 
 
-def listar_movimentacoes(limite=None):
+def listar_movimentacoes(
+    limite=None,
+    busca=None,
+    tipo=None,
+    data_inicio=None,
+    data_fim=None,
+):
     sql = """
         SELECT
             movimentacoes.*,
@@ -133,18 +139,54 @@ def listar_movimentacoes(limite=None):
         FROM movimentacoes
         INNER JOIN materiais
             ON materiais.id = movimentacoes.material_id
+        WHERE 1 = 1
+    """
+
+    parametros = []
+
+    if busca:
+        termo = f"%{busca.strip()}%"
+
+        sql += """
+            AND (
+                materiais.codigo LIKE ?
+                OR materiais.nome LIKE ?
+                OR movimentacoes.responsavel LIKE ?
+                OR movimentacoes.destino LIKE ?
+                OR movimentacoes.observacao LIKE ?
+            )
+        """
+
+        parametros.extend(
+            (termo, termo, termo, termo, termo)
+        )
+
+    if tipo in ("entrada", "saida"):
+        sql += " AND movimentacoes.tipo = ?"
+        parametros.append(tipo)
+
+    if data_inicio:
+        sql += " AND movimentacoes.data_movimentacao >= ?"
+        parametros.append(data_inicio)
+
+    if data_fim:
+        sql += " AND movimentacoes.data_movimentacao <= ?"
+        parametros.append(data_fim)
+
+    sql += """
         ORDER BY
             movimentacoes.data_movimentacao DESC,
             movimentacoes.id DESC
     """
 
-    parametros = ()
-
     if limite is not None:
         sql += " LIMIT ?"
-        parametros = (limite,)
+        parametros.append(limite)
 
-    return get_db().execute(sql, parametros).fetchall()
+    return get_db().execute(
+        sql,
+        tuple(parametros),
+    ).fetchall()
 
 
 def buscar_movimentacao(movimentacao_id):
@@ -188,7 +230,9 @@ def registrar_movimentacao(
         raise ValueError("A quantidade deve ser maior que zero.")
 
     if not data_movimentacao:
-        raise ValueError("A data da movimentação é obrigatória.")
+        raise ValueError(
+            "A data da movimentação é obrigatória."
+        )
 
     if not str(responsavel).strip():
         raise ValueError("O responsável é obrigatório.")
@@ -251,3 +295,75 @@ def registrar_movimentacao(
     except Exception:
         db.rollback()
         raise
+
+
+def obter_indicadores_dashboard():
+    db = get_db()
+
+    materiais = db.execute(
+        """
+        SELECT
+            COUNT(*) AS materiais_cadastrados,
+            COALESCE(SUM(quantidade), 0) AS total_itens,
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN quantidade <= estoque_minimo
+                        THEN 1
+                        ELSE 0
+                    END
+                ),
+                0
+            ) AS estoque_baixo
+        FROM materiais
+        """
+    ).fetchone()
+
+    movimentacoes_mes = db.execute(
+        """
+        SELECT
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN tipo = 'entrada'
+                        THEN 1
+                        ELSE 0
+                    END
+                ),
+                0
+            ) AS entradas_mes,
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN tipo = 'saida'
+                        THEN 1
+                        ELSE 0
+                    END
+                ),
+                0
+            ) AS saidas_mes
+        FROM movimentacoes
+        WHERE substr(data_movimentacao, 1, 7)
+            = strftime('%Y-%m', 'now', 'localtime')
+        """
+    ).fetchone()
+
+    return {
+        "materiais_cadastrados": (
+            materiais["materiais_cadastrados"]
+        ),
+        "total_itens": materiais["total_itens"],
+        "estoque_baixo": materiais["estoque_baixo"],
+        "entradas_mes": movimentacoes_mes["entradas_mes"],
+        "saidas_mes": movimentacoes_mes["saidas_mes"],
+    }
+
+
+def obter_dashboard():
+    return {
+        "indicadores": obter_indicadores_dashboard(),
+        "movimentacoes_recentes": [
+            dict(movimentacao)
+            for movimentacao in listar_movimentacoes(limite=5)
+        ],
+    }
