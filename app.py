@@ -1,11 +1,20 @@
+import click
 from flask import Flask, render_template
 
 from config import Config
+from database import close_db, init_db
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    app.teardown_appcontext(close_db)
+
+    @app.cli.command("init-db")
+    def init_db_command():
+        init_db()
+        click.echo("Banco de dados inicializado.")
 
     @app.get("/")
     @app.get("/index.html")
