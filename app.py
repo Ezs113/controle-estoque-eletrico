@@ -3,11 +3,13 @@ from flask import Flask, render_template
 
 from config import Config
 from database import close_db, init_db
+from routes import api
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.register_blueprint(api)
 
     app.teardown_appcontext(close_db)
 
