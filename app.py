@@ -1,0 +1,38 @@
+from flask import Flask, render_template
+
+from config import Config
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    @app.get("/")
+    @app.get("/index.html")
+    def index():
+        return render_template("index.html")
+
+    @app.get("/materiais.html")
+    def materiais():
+        return render_template("materiais.html")
+
+    @app.get("/entrada.html")
+    def entrada():
+        return render_template("entrada.html")
+
+    @app.get("/saida.html")
+    def saida():
+        return render_template("saida.html")
+
+    @app.get("/estoque.html")
+    def estoque():
+        return render_template("estoque.html")
+
+    @app.get("/historico.html")
+    def historico():
+        return render_template("historico.html")
+
+    return app
+
+
+app = create_app()
