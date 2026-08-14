@@ -58,7 +58,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-muted small d-block">Materiais Cadastrados</span>
-                            <span class="fs-3 fw-bold text-dark">48</span>
+                            <span class="fs-3 fw-bold text-dark" id="dashboard-materiais">-</span>
                         </div>
                         <div class="icone-kpi text-primary"><i class="bi bi-boxes"></i></div>
                     </div>
@@ -70,7 +70,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-muted small d-block">Total de Itens</span>
-                            <span class="fs-3 fw-bold text-dark">1.250</span>
+                            <span class="fs-3 fw-bold text-dark" id="dashboard-total-itens">-</span>
                         </div>
                         <div class="icone-kpi text-success"><i class="bi bi-stack"></i></div>
                     </div>
@@ -82,7 +82,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-muted small d-block">Estoque Baixo</span>
-                            <span class="fs-3 fw-bold text-warning">3</span>
+                            <span class="fs-3 fw-bold text-warning" id="dashboard-estoque-baixo">-</span>
                         </div>
                         <div class="icone-kpi text-warning"><i class="bi bi-exclamation-triangle"></i></div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-muted small d-block">Entradas do Mês</span>
-                            <span class="fs-3 fw-bold text-info">14</span>
+                            <span class="fs-3 fw-bold text-info" id="dashboard-entradas">-</span>
                         </div>
                         <div class="icone-kpi text-info"><i class="bi bi-box-arrow-in-down"></i></div>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <span class="text-muted small d-block">Saídas do Mês</span>
-                            <span class="fs-3 fw-bold text-secondary">22</span>
+                            <span class="fs-3 fw-bold text-secondary" id="dashboard-saidas">-</span>
                         </div>
                         <div class="icone-kpi text-secondary"><i class="bi bi-box-arrow-up"></i></div>
                     </div>
@@ -131,47 +131,7 @@
                             <th>Observação</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>07/08/2026 14:30</td>
-                            <td><span class="badge badge-tipo-entrada">Entrada</span></td>
-                            <td class="fw-semibold">Cabo flexível 2,5 mm² (Vermelho)</td>
-                            <td>+ 200 m</td>
-                            <td>Carlos Silva</td>
-                            <td>Compra Nota Fiscal 4589</td>
-                        </tr>
-                        <tr>
-                            <td>07/08/2026 11:15</td>
-                            <td><span class="badge badge-tipo-saida">Saída</span></td>
-                            <td class="fw-semibold">Disjuntor bipolar 20A</td>
-                            <td>- 5 un</td>
-                            <td>João Souza</td>
-                            <td>Manutenção no Bloco B</td>
-                        </tr>
-                        <tr>
-                            <td>06/08/2026 16:45</td>
-                            <td><span class="badge badge-tipo-saida">Saída</span></td>
-                            <td class="fw-semibold">Tomada 10A 2P+T</td>
-                            <td>- 12 un</td>
-                            <td>Marcos Lima</td>
-                            <td>Reforma do Laboratório 3</td>
-                        </tr>
-                        <tr>
-                            <td>06/08/2026 09:20</td>
-                            <td><span class="badge badge-tipo-entrada">Entrada</span></td>
-                            <td class="fw-semibold">Eletroduto PVC 3/4"</td>
-                            <td>+ 50 barras</td>
-                            <td>Carlos Silva</td>
-                            <td>Reposição semanal de estoque</td>
-                        </tr>
-                        <tr>
-                            <td>05/08/2026 15:10</td>
-                            <td><span class="badge badge-tipo-saida">Saída</span></td>
-                            <td class="fw-semibold">Interruptor simples 1 tecla</td>
-                            <td>- 8 un</td>
-                            <td>Lucas Mendes</td>
-                            <td>Instalação na Sala dos Professores</td>
-                        </tr>
+                    <tbody id="tabela-movimentacoes-recentes">
                     </tbody>
                 </table>
             </div>

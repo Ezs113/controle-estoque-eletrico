@@ -46,6 +46,15 @@
             </button>
         </div>
 
+        <div class="alert alert-success d-none alert-dismissible fade show mb-3" id="alertaSucessoMateriais" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i><span id="textoSucessoMateriais">Operação realizada com sucesso.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-danger d-none alert-dismissible fade show mb-3" id="alertaErroMateriais" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i><span id="textoErroMateriais">Erro ao realizar operação.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="card p-3 mb-4 bg-white border-0 shadow-sm">
             <div class="row g-2 align-items-center">
                 <div class="col-12 col-md-6 col-lg-4">
@@ -74,85 +83,7 @@
                             <th class="text-center">Ações</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold">MAT-001</td>
-                            <td>Cabo flexível 2,5 mm² (Vermelho)</td>
-                            <td>Condutores</td>
-                            <td>Metros</td>
-                            <td>350</td>
-                            <td>100</td>
-                            <td>Prateleira A1</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Cabo flexível 2,5 mm²')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">MAT-002</td>
-                            <td>Disjuntor bipolar 20A DIN</td>
-                            <td>Proteção</td>
-                            <td>Unidades</td>
-                            <td>45</td>
-                            <td>15</td>
-                            <td>Prateleira B2</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Disjuntor bipolar 20A')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">MAT-003</td>
-                            <td>Tomada 10A 2P+T Embutir</td>
-                            <td>Tomadas e Interruptores</td>
-                            <td>Unidades</td>
-                            <td>8</td>
-                            <td>20</td>
-                            <td>Prateleira C1</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Tomada 10A 2P+T')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">MAT-004</td>
-                            <td>Interruptor simples 1 tecla</td>
-                            <td>Tomadas e Interruptores</td>
-                            <td>Unidades</td>
-                            <td>60</td>
-                            <td>15</td>
-                            <td>Prateleira C1</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Interruptor simples 1 tecla')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">MAT-005</td>
-                            <td>Eletroduto PVC 3/4" (3m)</td>
-                            <td>Tubulações</td>
-                            <td>Barras</td>
-                            <td>80</td>
-                            <td>30</td>
-                            <td>Galpão G2</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Eletroduto PVC 3/4')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">MAT-006</td>
-                            <td>Conector elétrico wago 3 vias</td>
-                            <td>Conexões</td>
-                            <td>Caixas</td>
-                            <td>12</td>
-                            <td>5</td>
-                            <td>Prateleira A3</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarMaterial" title="Editar"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('Conector elétrico wago 3 vias')" title="Excluir"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
+                    <tbody id="tbodyMateriais">
                     </tbody>
                 </table>
             </div>
@@ -168,7 +99,7 @@
                     <h5 class="modal-title fw-bold" id="modalNovoMaterialLabel"><i class="bi bi-box-seam me-2"></i>Cadastrar Novo Material</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="form-estoque">
+                <form class="form-estoque" id="formNovoMaterial">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -189,6 +120,9 @@
                                     <option value="Tubulações">Tubulações</option>
                                     <option value="Iluminação">Iluminação</option>
                                     <option value="Conexões">Conexões</option>
+                                    <option value="Comando e Automação">Comando e Automação</option>
+                                    <option value="Acessórios">Acessórios</option>
+                                    <option value="Outros">Outros</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -232,42 +166,53 @@
                     <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Material</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="form-estoque">
+                <form class="form-estoque" id="formEditarMaterial">
+                    <input type="hidden" id="editIdInput">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold">Código do Material</label>
-                                <input type="text" class="form-control form-control-sm" value="MAT-001" readonly>
+                                <label for="editCodigoInput" class="form-label small fw-bold">Código do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="editCodigoInput" required>
                             </div>
                             <div class="col-md-8">
-                                <label class="form-label small fw-bold">Nome do Material</label>
-                                <input type="text" class="form-control form-control-sm" value="Cabo flexível 2,5 mm² (Vermelho)" required>
+                                <label for="editNomeInput" class="form-label small fw-bold">Nome do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="editNomeInput" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Categoria</label>
-                                <select class="form-select form-select-sm" required>
-                                    <option value="Condutores" selected>Condutores</option>
+                                <label for="editCategoriaSelect" class="form-label small fw-bold">Categoria</label>
+                                <select class="form-select form-select-sm" id="editCategoriaSelect" required>
+                                    <option value="Condutores">Condutores</option>
                                     <option value="Proteção">Proteção</option>
+                                    <option value="Tomadas e Interruptores">Tomadas e Interruptores</option>
+                                    <option value="Tubulações">Tubulações</option>
+                                    <option value="Iluminação">Iluminação</option>
+                                    <option value="Conexões">Conexões</option>
+                                    <option value="Comando e Automação">Comando e Automação</option>
+                                    <option value="Acessórios">Acessórios</option>
+                                    <option value="Outros">Outros</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Unidade de Medida</label>
-                                <select class="form-select form-select-sm" required>
-                                    <option value="Metros" selected>Metros</option>
+                                <label for="editUnidadeSelect" class="form-label small fw-bold">Unidade de Medida</label>
+                                <select class="form-select form-select-sm" id="editUnidadeSelect" required>
                                     <option value="Unidades">Unidades</option>
+                                    <option value="Metros">Metros</option>
+                                    <option value="Barras">Barras</option>
+                                    <option value="Caixas">Caixas</option>
+                                    <option value="Kilos">Kilos</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold">Quantidade Atual</label>
-                                <input type="number" class="form-control form-control-sm" value="350" required>
+                                <label for="editQtdInput" class="form-label small fw-bold">Quantidade Atual</label>
+                                <input type="number" class="form-control form-control-sm" id="editQtdInput" min="0" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold">Estoque Mínimo</label>
-                                <input type="number" class="form-control form-control-sm" value="100" required>
+                                <label for="editEstMinimoInput" class="form-label small fw-bold">Estoque Mínimo</label>
+                                <input type="number" class="form-control form-control-sm" id="editEstMinimoInput" min="0" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label small fw-bold">Localização</label>
-                                <input type="text" class="form-control form-control-sm" value="Prateleira A1">
+                                <label for="editLocalizacaoInput" class="form-label small fw-bold">Localização</label>
+                                <input type="text" class="form-control form-control-sm" id="editLocalizacaoInput">
                             </div>
                         </div>
                     </div>
@@ -289,12 +234,14 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="deleteIdInput">
                     <p class="mb-1">Tem certeza que deseja excluir o material <strong id="nomeMaterialExcluir"></strong>?</p>
-                    <small class="text-muted">Esta ação não poderá ser desfeita.</small>
+                    <small class="text-muted d-block">Esta ação não poderá ser desfeita.</small>
+                    <div class="alert alert-danger d-none mt-3 mb-0 py-2 small" id="alertaErroExclusao"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Sim, Excluir</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btnConfirmarExclusao">Sim, Excluir</button>
                 </div>
             </div>
         </div>
