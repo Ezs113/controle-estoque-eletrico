@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Materiais - Controle de Estoque</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <i class="bi bi-lightning-charge-fill text-warning fs-4"></i>
+                <span>Estoque Elétrico</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="materiais.html"><i class="bi bi-box-seam me-1"></i> Materiais</a></li>
+                    <li class="nav-item"><a class="nav-link" href="entrada.html"><i class="bi bi-arrow-down-circle me-1"></i> Entrada</a></li>
+                    <li class="nav-item"><a class="nav-link" href="saida.html"><i class="bi bi-arrow-up-circle me-1"></i> Saída</a></li>
+                    <li class="nav-item"><a class="nav-link" href="estoque.html"><i class="bi bi-clipboard-data me-1"></i> Consulta Estoque</a></li>
+                    <li class="nav-item"><a class="nav-link" href="historico.html"><i class="bi bi-clock-history me-1"></i> Histórico</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h4 mb-0 fw-bold">Cadastro e Gestão de Materiais</h2>
+                <p class="text-muted small mb-0">Gerencie a lista de itens elétricos cadastrados no sistema</p>
+            </div>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNovoMaterial">
+                <i class="bi bi-plus-lg me-1"></i> Novo Material
+            </button>
+        </div>
+
+        <div class="alert alert-success d-none alert-dismissible fade show mb-3" id="alertaSucessoMateriais" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i><span id="textoSucessoMateriais">Operação realizada com sucesso.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-danger d-none alert-dismissible fade show mb-3" id="alertaErroMateriais" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i><span id="textoErroMateriais">Erro ao realizar operação.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="card p-3 mb-4 bg-white border-0 shadow-sm">
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" id="buscaMaterial" data-busca-tabela="tabelaMateriais" placeholder="Pesquisar por código, nome ou categoria...">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-8 text-md-end">
+                </div>
+            </div>
+        </div>
+
+        <div class="card tabela-custom mb-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="tabelaMateriais">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome do Material</th>
+                            <th>Categoria</th>
+                            <th>Unidade</th>
+                            <th>Quantidade</th>
+                            <th>Estoque Mínimo</th>
+                            <th>Localização</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyMateriais">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Cadastrar Novo Material -->
+    <div class="modal fade" id="modalNovoMaterial" tabindex="-1" aria-labelledby="modalNovoMaterialLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalNovoMaterialLabel"><i class="bi bi-box-seam me-2"></i>Cadastrar Novo Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="form-estoque" id="formNovoMaterial">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="codigoInput" class="form-label small fw-bold">Código do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="codigoInput" placeholder="Ex: MAT-007" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="nomeInput" class="form-label small fw-bold">Nome do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="nomeInput" placeholder="Ex: Lâmpada LED Tubular 18W" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="categoriaSelect" class="form-label small fw-bold">Categoria</label>
+                                <select class="form-select form-select-sm" id="categoriaSelect" required>
+                                    <option value="" selected disabled>Selecione uma categoria...</option>
+                                    <option value="Condutores">Condutores</option>
+                                    <option value="Proteção">Proteção</option>
+                                    <option value="Tomadas e Interruptores">Tomadas e Interruptores</option>
+                                    <option value="Tubulações">Tubulações</option>
+                                    <option value="Iluminação">Iluminação</option>
+                                    <option value="Conexões">Conexões</option>
+                                    <option value="Comando e Automação">Comando e Automação</option>
+                                    <option value="Acessórios">Acessórios</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="unidadeSelect" class="form-label small fw-bold">Unidade de Medida</label>
+                                <select class="form-select form-select-sm" id="unidadeSelect" required>
+                                    <option value="Unidades">Unidades</option>
+                                    <option value="Metros">Metros</option>
+                                    <option value="Barras">Barras</option>
+                                    <option value="Caixas">Caixas</option>
+                                    <option value="Kilos">Kilos</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="qtdInput" class="form-label small fw-bold">Quantidade Inicial</label>
+                                <input type="number" class="form-control form-control-sm" id="qtdInput" min="0" value="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="estMinimoInput" class="form-label small fw-bold">Estoque Mínimo</label>
+                                <input type="number" class="form-control form-control-sm" id="estMinimoInput" min="0" value="10" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="localizacaoInput" class="form-label small fw-bold">Localização</label>
+                                <input type="text" class="form-control form-control-sm" id="localizacaoInput" placeholder="Ex: Prateleira B1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Salvar Material</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Material -->
+    <div class="modal fade" id="modalEditarMaterial" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="form-estoque" id="formEditarMaterial">
+                    <input type="hidden" id="editIdInput">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="editCodigoInput" class="form-label small fw-bold">Código do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="editCodigoInput" required>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="editNomeInput" class="form-label small fw-bold">Nome do Material</label>
+                                <input type="text" class="form-control form-control-sm" id="editNomeInput" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editCategoriaSelect" class="form-label small fw-bold">Categoria</label>
+                                <select class="form-select form-select-sm" id="editCategoriaSelect" required>
+                                    <option value="Condutores">Condutores</option>
+                                    <option value="Proteção">Proteção</option>
+                                    <option value="Tomadas e Interruptores">Tomadas e Interruptores</option>
+                                    <option value="Tubulações">Tubulações</option>
+                                    <option value="Iluminação">Iluminação</option>
+                                    <option value="Conexões">Conexões</option>
+                                    <option value="Comando e Automação">Comando e Automação</option>
+                                    <option value="Acessórios">Acessórios</option>
+                                    <option value="Outros">Outros</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editUnidadeSelect" class="form-label small fw-bold">Unidade de Medida</label>
+                                <select class="form-select form-select-sm" id="editUnidadeSelect" required>
+                                    <option value="Unidades">Unidades</option>
+                                    <option value="Metros">Metros</option>
+                                    <option value="Barras">Barras</option>
+                                    <option value="Caixas">Caixas</option>
+                                    <option value="Kilos">Kilos</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="editQtdInput" class="form-label small fw-bold">Quantidade Atual</label>
+                                <input type="number" class="form-control form-control-sm" id="editQtdInput" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="editEstMinimoInput" class="form-label small fw-bold">Estoque Mínimo</label>
+                                <input type="number" class="form-control form-control-sm" id="editEstMinimoInput" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="editLocalizacaoInput" class="form-label small fw-bold">Localização</label>
+                                <input type="text" class="form-control form-control-sm" id="editLocalizacaoInput">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Atualizar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Exclusão -->
+    <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteIdInput">
+                    <p class="mb-1">Tem certeza que deseja excluir o material <strong id="nomeMaterialExcluir"></strong>?</p>
+                    <small class="text-muted d-block">Esta ação não poderá ser desfeita.</small>
+                    <div class="alert alert-danger d-none mt-3 mb-0 py-2 small" id="alertaErroExclusao"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="btnConfirmarExclusao">Sim, Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">Trabalho Final — Pós-Graduação UTFPR</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/main.js"></script>
+</body>
+
+</html>

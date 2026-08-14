@@ -59,3 +59,30 @@ controle-estoque-eletrico/
     ├── estoque.html            # Consulta de estoque
     └── historico.html          # Histórico de movimentações
 ```
+
+## Requisitos do Backend
+
+- Ubuntu Linux
+- Python 3.14.4
+- Flask 3.1.3
+- SQLite 3 (módulo `sqlite3` incluído no Python)
+- pip
+- venv
+
+## Preparação do Ambiente
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## Execução
+
+Com o ambiente virtual ativado:
+
+```bash
+python -m flask --app app init-db
+python -m flask --app app seed-db
+python -m flask --app app run --debug --host=0.0.0.0 --port=5000
