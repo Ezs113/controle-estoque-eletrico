@@ -2,14 +2,14 @@
 
 Trabalho Final — Pós-Graduação UTFPR
 
-Sistema de controle de estoque de materiais elétricos desenvolvido para gestão de almoxarifado, controle de entradas, saídas, consulta de saldos em estoque e histórico de movimentações.
+Sistema de Controle de Estoque de Materiais Elétricos desenvolvido como projeto acadêmico para gestão de almoxarifado, acompanhamento de entradas e saídas, consulta de saldos em estoque e histórico de movimentações.
 
 ## Integrantes do Projeto
 
-- **Adriano Lopes** — Backend
-- **Ezequiel Souza** — Frontend
+- Adriano Lopes — Backend
+- Ezequiel Souza — Frontend
 
-## Tecnologias Previstas
+## Tecnologias Utilizadas
 
 - Python
 - Flask
@@ -21,68 +21,119 @@ Sistema de controle de estoque de materiais elétricos desenvolvido para gestão
 - Git
 - GitHub
 
-> **Situação do Projeto**: O frontend da aplicação encontra-se totalmente desenvolvido e funcional. A estrutura base do backend está devidamente preparada, e a implementação com Flask e SQLite será realizada posteriormente.
+## Estado Atual do Sistema
+
+O sistema encontra-se totalmente integrado e funcional, com o frontend consumindo os endpoints da API Flask e com suporte a persistência de dados no banco de dados SQLite.
+
+## Funcionalidades Implementadas
+
+- Dashboard com indicadores gerais do estoque e movimentações recentes
+- Cadastro, consulta, edição e exclusão (CRUD) de materiais elétricos
+- Registro de entradas de estoque com atualização de saldos
+- Registro de saídas de estoque com validação de quantidades disponíveis
+- Consulta de situação do estoque (com identificação de estoque baixo e zerado)
+- Histórico completo de movimentações com filtros por texto, tipo e período de datas
+- Integração dinâmica frontend/backend por meio de API REST
+- Persistência e integridade referencial dos dados em banco SQLite
 
 ## Estrutura do Projeto
 
 ```text
 controle-estoque-eletrico/
 │
-├── app.py                      # Aplicação Flask (preparado)
-├── config.py                   # Configurações do projeto (preparado)
-├── database.py                 # Conexão com o banco de dados (preparado)
+├── app.py                      # Arquivo principal da aplicação Flask e rotas de templates
+├── config.py                   # Configurações globais e caminho do banco de dados
+├── database.py                 # Funções de conexão e inicialização do banco SQLite
+├── seed.py                     # Script para inserção de dados iniciais no banco
+├── requirements.txt            # Dependências Python do projeto
+├── API.md                      # Documentação das rotas e especificações da API REST
 ├── README.md                   # Documentação do projeto
-├── .gitignore                  # Arquivo de exclusão do Git
+├── .gitignore                  # Regras de exclusão do Git
 │
 ├── banco/
-│   └── estoque.db              # Banco de dados SQLite (preparado)
+│   └── estoque.db              # Banco de dados SQLite da aplicação
 │
 ├── models/
-│   └── __init__.py             # Modelos de dados (preparado)
+│   └── __init__.py             # Funções de manipulação de dados e consultas SQL
 │
 ├── routes/
-│   └── __init__.py             # Rotas da aplicação (preparado)
+│   └── __init__.py             # Definição dos endpoints REST da API
 │
 ├── static/
 │   ├── css/
-│   │   └── style.css           # Estilos personalizados
+│   │   └── style.css           # Estilos personalizados do sistema
 │   ├── js/
-│   │   └── main.js             # Scripts e filtros da interface
+│   │   └── main.js             # Lógica e chamadas AJAX (fetch API) no frontend
 │   └── img/
-│       └── .gitkeep            # Diretório de imagens
+│       └── .gitkeep            # Diretório de armazenamento de imagens
 │
-└── templates/
-    ├── index.html              # Dashboard
-    ├── materiais.html          # Cadastro de materiais
-    ├── entrada.html            # Entrada de estoque
-    ├── saida.html              # Saída de estoque
-    ├── estoque.html            # Consulta de estoque
-    └── historico.html          # Histórico de movimentações
+└── templates/                  # Interfaces HTML do sistema
+    ├── index.html              # Dashboard principal
+    ├── materiais.html          # Cadastro e gestão de materiais
+    ├── entrada.html            # Formulário de entrada de estoque
+    ├── saida.html              # Formulário de saída de estoque
+    ├── estoque.html            # Consulta e situação do estoque
+    └── historico.html          # Histórico geral de movimentações
 ```
 
-## Requisitos do Backend
+## Como Executar o Projeto Localmente
 
-- Ubuntu Linux
-- Python 3.14.4
-- Flask 3.1.3
-- SQLite 3 (módulo `sqlite3` incluído no Python)
-- pip
-- venv
+### 1. Acessar o Diretório do Projeto
 
-## Preparação do Ambiente
+No terminal ou prompt de comando, navegue até a pasta do projeto:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
+cd C:\UTFPR\Projetos\controle-estoque-eletrico
+```
+
+### 2. Criar e Ativar o Ambiente Virtual
+
+Criar o ambiente virtual Python:
+
+```bash
+python -m venv .venv
+```
+
+Ativar o ambiente virtual:
+
+- **No Windows (PowerShell):**
+  ```powershell
+  .venv\Scripts\Activate.ps1
+  ```
+
+- **No Windows (Prompt de Comando - CMD):**
+  ```cmd
+  .venv\Scripts\activate.bat
+  ```
+
+- **No Linux ou macOS:**
+  ```bash
+  source .venv/bin/activate
+  ```
+
+### 3. Instalar as Dependências
+
+Com o ambiente virtual ativado, instale as dependências contidas no `requirements.txt`:
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Execução
+### 4. Inicializar o Banco de Dados (Opcional / Carga Inicial)
 
-Com o ambiente virtual ativado:
+Caso necessite popular o banco de dados com a estrutura e os dados iniciais de teste:
 
 ```bash
-python -m flask --app app init-db
-python -m flask --app app seed-db
-python -m flask --app app run --debug --host=0.0.0.0 --port=5000
+python seed.py
+```
+
+### 5. Executar o Servidor Flask
+
+Inicie a aplicação:
+
+```bash
+python app.py
+```
+
+Acesse a aplicação no navegador por meio do endereço:
+`http://127.0.0.1:5000`
